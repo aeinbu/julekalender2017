@@ -6,6 +6,8 @@ namespace luke2
 	{
 		public static bool IsOdd(this int x) => (x & 1) == 1;
 
-        public static int CountSetBits(this int x) => Enumerable.Range(0,32).Sum(i => x >> i & 1);
+		public static int CountSetBits(this long x) => (int)Enumerable.Range(0, 64).Sum(i => x >> i & 1);
+
+
 	}
 }
