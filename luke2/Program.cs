@@ -31,8 +31,7 @@ namespace luke2
 				for (int y = 0; y < gridsize; y++)
 				{
 					var coord = (x, y);
-					if (HasBeenVisited(coord))
-					// if (!HasBeenVisited(coord) && !IsClosed(coord))
+					if (!HasBeenVisited(coord) && !IsClosed(coord))
 					{
 						untouchedCount++;
 					}
