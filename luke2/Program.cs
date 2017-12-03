@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace luke2
@@ -10,6 +11,7 @@ namespace luke2
 
 		static void Main(string[] args)
 		{
+			var stopwatch = Stopwatch.StartNew();
 			Print(coord => IsClosed(coord) ? "#" : "-");
 
 			var startCoord = (0, 0);
@@ -38,6 +40,8 @@ namespace luke2
 				}
 			}
             Console.WriteLine(untouchedCount);
+
+			Console.WriteLine($"Time taken: {stopwatch.Elapsed}");
 		}
 
 		private static void Walk((int x, int y) coord)
