@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 
 namespace luke2
 {
@@ -11,21 +12,25 @@ namespace luke2
 
 		static void Main(string[] args)
 		{
+			Console.Clear();
 			var stopwatch = Stopwatch.StartNew();
-			Print(coord => IsClosed(coord) ? "#" : "-");
+
+			Print(coord => IsClosed(coord) ? '#' : ' ');
 
 			var startCoord = (0, 0);
 			Walk(startCoord);
+			var endCoord = (0, gridsize +1);
+			PrintAt(' ', endCoord);
 
-			Console.WriteLine();
-			Print(coord => HasBeenVisited(coord) ? "+" : " ");
+			// Console.WriteLine();
+			// Print(coord => HasBeenVisited(coord) ? '+' : ' ');
 
-			Console.WriteLine();
-			Print(coord => IsClosed(coord)
-							? "#"
-							: HasBeenVisited(coord)
-								? "."
-								: "*");
+			// Console.WriteLine();
+			// Print(coord => IsClosed(coord)
+			// 				? '#'
+			// 				: HasBeenVisited(coord)
+			// 					? '.'
+			// 					: '*');
 
 			var untouchedCount = 0;
 			for (int x = 0; x < gridsize; x++)
@@ -44,17 +49,30 @@ namespace luke2
 			Console.WriteLine($"Time taken: {stopwatch.Elapsed}");
 		}
 
+		private static void PrintAt(char c, (int x, int y) coord)
+		{
+			Console.SetCursorPosition(coord.x, coord.y);
+			Console.Write(c);
+		}
+
 		private static void Walk((int x, int y) coord)
 		{
+			Action<(int x, int y)> mark = cursorPos => {PrintAt('+', cursorPos); Thread.Sleep(50);};
 			MarkAsVisited(coord);
+			mark(coord);
 
+			
 			if (CanGoUpFrom(coord) && !HasBeenVisited(UpFrom(coord))) Walk(UpFrom(coord));
+			mark(coord);
 
 			if (CanGoRightFrom(coord) && !HasBeenVisited(RightFrom(coord))) Walk(RightFrom(coord));
+			mark(coord);
 
 			if (CanGoDownFrom(coord) && !HasBeenVisited(DownFrom(coord))) Walk(DownFrom(coord));
+			mark(coord);
 
 			if (CanGoLeftFrom(coord) && !HasBeenVisited(LeftFrom(coord))) Walk(LeftFrom(coord));
+			mark(coord);
 		}
 
 		private static void MarkAsVisited((int x, int y) coord)
@@ -67,14 +85,15 @@ namespace luke2
 			return _visited[coord.x, coord.y];
 		}
 
-		private static void Print(Func<(int x, int y), string> fn)
+		private static void Print(Func<(int x, int y), char> fn)
 		{
 			for (int y = 0; y < gridsize; y++)
 			{
 				for (int x = 0; x < gridsize; x++)
 				{
 					var coord = (x, y);
-					Console.Write(fn(coord));
+					// Console.Write(fn(coord));
+					PrintAt(fn(coord), coord);
 				}
 				Console.WriteLine();
 			}
