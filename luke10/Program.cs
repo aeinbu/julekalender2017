@@ -10,16 +10,7 @@ namespace luke10
             var numberOfGuests = 1500;
 			First(numberOfGuests);
             Second(numberOfGuests);
-            
-
-            System.Console.WriteLine();
-            Enumerable.Range(1,10).Nth(2,0).ToList().ForEach(Console.WriteLine);
-            System.Console.WriteLine();
-            Enumerable.Range(1,10).Nth(2,1).ToList().ForEach(Console.WriteLine);
-            System.Console.WriteLine();
-            Enumerable.Range(1,10).Nth(3,2).ToList().ForEach(Console.WriteLine);
-
-
+			// Third(numberOfGuests);
 
 			Console.WriteLine("\nDone!");
 		}
@@ -37,14 +28,13 @@ namespace luke10
 				listOfGuests.RemoveAt(pos);
 			}
 
-			System.Console.WriteLine($"\nSecond says: {listOfGuests[0]}");
+			System.Console.WriteLine($"\nFirst says: {listOfGuests[0]}");
 		}
 
 		private static void Second(int numberOfGuests)
 		{
 			var listOfGuests = Enumerable.Range(1, numberOfGuests).ToList();
             var servingStartsAt = 0;
-			// var pos = 0;
 			while (listOfGuests.Count > 1)
 			{
                 var temp = listOfGuests.Nth(2, servingStartsAt).ToList();
@@ -56,8 +46,30 @@ namespace luke10
 
 			}
 
-			System.Console.WriteLine($"\nFirst says: {listOfGuests[0]}");
+			System.Console.WriteLine($"\nSecond says: {listOfGuests[0]}");
 		}
+
+
+		// private static void Third(int numberOfGuests)
+		// {
+		// 	var bitPos = 0;
+		// 	var add = false;
+		// 	var guestPos = 0;
+		// 	while (numberOfGuests > 0)
+		// 	{
+        //         if((numberOfGuests & 1) != 1)
+        //         {
+		// 			add = !add;
+        //         }
+		// 		if(add){
+		// 			guestPos += 1 << bitPos;
+		// 		}
+		// 		bitPos++;
+		// 		numberOfGuests = numberOfGuests >> 1;
+		// 	}
+
+		// 	System.Console.WriteLine($"\nThird says: {guestPos + 1}");
+		// }
 
 
 	}
