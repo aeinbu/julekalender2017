@@ -17,8 +17,7 @@ namespace luke12
 		{
 			Console.Clear();
 
-			var board = new Color[BoardSize * BoardSize];
-			// var board = new Color[BoardSize, BoardSize];
+			var board = new Color[BoardSize * BoardSize];   // Alle rutene i brettet legges i en lang en-dimensional array for enklere å telle svarte felter...
 			var toPos = (x: 0, y: 0);
 
 			(int dx, int dy)[] allMoves = { (-1, 2), (1, 2), (-2, 1), (2, 1), (-1, -2), (1, -2), (-2, -1), (2, -1) };
@@ -28,13 +27,11 @@ namespace luke12
 			{
 				var fromPos = toPos;
 				var fromColor = board[FieldNumber(toPos)];
-				// var fromColor = board[toPos.x, toPos.y];
 
 				var allPossibilities = allMoves.Select(move => Move(fromPos, move))
 											.Where(pos => IsWithinBoard(pos));
 
 				var possibilitiesInCurrentColor = allPossibilities.Where(pos => board[FieldNumber(pos)] == fromColor);
-				// var possibilitiesInCurrentColor = allPossibilities.Where(pos => board[pos.x, pos.y] == fromColor);
 				if (possibilitiesInCurrentColor.Any())
 				{
 					toPos = possibilitiesInCurrentColor.OrderBy(pos => FieldNumber(pos)).First();
@@ -45,17 +42,15 @@ namespace luke12
 				}
 
 				board[FieldNumber(fromPos)] = SwitchColor(board[FieldNumber(fromPos)]);
-				// board[fromPos.x, fromPos.y] = SwitchColor(board[fromPos.x, fromPos.y]);
 
 
-				PrintAt(board[FieldNumber(fromPos)] == Color.Black? '■' : ' ', fromPos);
-				// PrintAt(board[fromPos.x, fromPos.y] == Color.Black? '■' : ' ', fromPos);
+				PrintAt(board[FieldNumber(fromPos)] == Color.Black ? '■' : ' ', fromPos);   //OBS: På svart terminal ser de hvite feltene svarte ut of vice verse
 				PrintAt('*', toPos);
-				Thread.Sleep(20);
+				Thread.Sleep(100);
 			}
 
 			Console.SetCursorPosition(0, 12);
-			Console.Write(board.Where(pos => pos == Color.Black).Count());
+			Console.Write($"Antall svarte ruter: {board.Where(pos => pos == Color.Black).Count()}");
 			Console.WriteLine("\nDone!");
 		}
 
@@ -78,6 +73,9 @@ namespace luke12
 		}
 
 		static int FieldNumber((int x, int y) pos) => pos.x * BoardSize + pos.y;
-		static (int x, int y) FieldPos(int fieldNumber) => (x: fieldNumber % BoardSize, y: fieldNumber / BoardSize);
+		static (int x, int y) FieldPos(int fieldNumber)
+		{
+			return (x: fieldNumber % BoardSize, y: fieldNumber / BoardSize);
+		}
 	}
 }
