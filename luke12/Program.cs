@@ -32,15 +32,10 @@ namespace luke12
 											.Where(pos => IsWithinBoard(pos));
 
 				var possibilitiesInCurrentColor = allPossibilities.Where(pos => board[FieldNumber(pos)] == fromColor);
-				if (possibilitiesInCurrentColor.Any())
-				{
-					toPos = possibilitiesInCurrentColor.OrderBy(pos => FieldNumber(pos)).First();
-				}
-				else
-				{
-					toPos = allPossibilities.OrderBy(pos => FieldNumber(pos)).Last();
-				}
-
+				toPos = possibilitiesInCurrentColor.Any()
+						? toPos = possibilitiesInCurrentColor.OrderBy(pos => FieldNumber(pos)).First()
+						: allPossibilities.OrderBy(pos => FieldNumber(pos)).Last();
+				
 				board[FieldNumber(fromPos)] = SwitchColor(board[FieldNumber(fromPos)]);
 
 
